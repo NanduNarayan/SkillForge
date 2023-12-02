@@ -1,0 +1,18 @@
+.badge{
+    padding:10px;
+    border:.02em solid rgba(30, 29, 29, 0.486);
+    text-align: center;
+    border-radius: 25px;;
+}
+.open{
+    background-color: lightgreen;
+    color:rgb(3, 107, 3);
+}
+.in-progress{
+    background-color:rgba(252, 252, 69, 0.964);
+    color:rgb(71, 71, 1)
+}
+.closed{
+    background-color:rgb(231, 80, 80);
+    color:red;
+}

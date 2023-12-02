@@ -11,6 +11,7 @@ const reduxState = configureStore({
   reducer: rootReducer,
   devTools: true,
   preloadedState: [],
+  shouldHotReload: false
 })
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

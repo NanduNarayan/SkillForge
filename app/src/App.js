@@ -7,6 +7,7 @@ import { initializeDataAction } from './redux/actions'
 import {useDispatch} from 'react-redux';
 import Landing from './Pages/Landing';
 import Courses from './Pages/Courses';
+import CourseInfo from './Pages/CourseInfo';
 
 const router=createBrowserRouter([
   { 
@@ -16,6 +17,10 @@ const router=createBrowserRouter([
   { 
     path:'/courses',
     element:<Courses/>
+  },
+  { 
+    path:"/courses/:id",
+    element:<CourseInfo/>
   }
 ])
 
@@ -26,6 +31,7 @@ function App() {
     async function getData() {
       const data = await getDocs(courses)
       const docs = data.docs.map(doc => ({ ...doc.data(), id: doc.id }))
+      console.log(docs)
       dispatch(initializeDataAction(docs))
     }
     getData()

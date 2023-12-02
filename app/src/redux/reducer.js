@@ -7,9 +7,8 @@ export default (state = initialState, { type, payload }) => {
   switch (type) {
 
   case INITIALIZE_STATE:
-    return{
-       courses:[...payload]
-    }
+    const initialState={courses:[...payload]}
+    return {...initialState}
 
   default:
     return state

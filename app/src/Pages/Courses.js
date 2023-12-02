@@ -33,7 +33,7 @@ function Courses() {
     const navigate = useNavigate();
     const navigateCourse=(id=null)=>{
         if(id){
-            navigate("/courses/id="+id);
+            navigate(`/courses/${id}`);
         }
     }
     return (
