@@ -1,4 +1,4 @@
-import { INITIALIZE_STATE } from './actionTypes'
+import { INITIALIZE_STATE} from './actionTypes'
 
 const initialState = {}
 
@@ -7,8 +7,9 @@ export default (state = initialState, { type, payload }) => {
   switch (type) {
 
   case INITIALIZE_STATE:
-    const initialState={courses:[...payload]}
+    const initialState={courses:[...payload.courses],users:[...payload.users],}
     return {...initialState}
+
 
   default:
     return state

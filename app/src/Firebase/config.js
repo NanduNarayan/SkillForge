@@ -22,5 +22,8 @@ const db=getFirestore(app);
 
 //collection Ref
 const coursesRef=collection(db,'courses');
+const usersRef=collection(db,'users');
+
 
 export const courses = coursesRef
+export const users=usersRef

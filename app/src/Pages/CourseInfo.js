@@ -1,50 +1,18 @@
-import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom'
+import React, {  useState } from 'react'
+import {  useSelector } from 'react-redux';
+import { useNavigate, useParams } from 'react-router-dom'
 import '../css/coursePage.css'
 import '../css/statusBadge.css'
+import { StatusBadge } from '../Components/StatusBadge';
 
-function StatusBadge({ status }) {
 
-    const statusOpen = (
-        <div className="open badge">
-            Open
-        </div>
-    )
-    const statusInProgress = (
-        <div className="in-progress badge">
-            In Progress
-        </div>
-    )
-    const statusClosed = (
-        <div className="closed badge">
-            Closed
-        </div>
-    )
-    const statusSetter = (status) => {
-        if (status) {
-            if (status === "Open") {
-                return statusOpen
-            } else if (status === "Closed") {
-                return statusClosed
-            } else if (status === "In Progress") {
-                return statusInProgress
-            }
-        }
-    }
-
-    return (
-        <>
-            {statusSetter(status)}
-        </>
-    )
-
-}
 
 function CourseInfo() {
+    const navigate=useNavigate();
     const [dropActive, setDropActive] = useState(false)
     const { id } = useParams();
-    const course = useSelector(state => state.courses.find(item => item.id === id))
+    const course = useSelector(state => state.courses.find(item => item.id === id));
+    const userid="101"
     return (
         <>
             {
@@ -57,17 +25,23 @@ function CourseInfo() {
                             </div>
                             <h2>Tutor - {course.instructor}</h2>
                             <h3 style={{ fontStyle: "italic" }}>{course.description}</h3>
+                            <button type="button" onClick={()=>{
+                                window.alert("Enrollment Successful");
+                                navigate(`/user/${userid}/dashboard`)
+                                }}>Enroll Now</button>
+                            <span>Total Enrolled : {course.students.length}</span>
                         </div>
                         <div className="description">
+                            <h4>{course.schedule}</h4>
+                            <h4>Course Duration : {course.duration}</h4>
+                            <h4>Location : {course.location}</h4>
                             <h4>Prerequisites</h4>
-                            <ul name="prereq-list">
                                 {course.prerequisites.map((item, index) => (
-                                    <li key={index}>
+                                    <div key={index}>
 
                                         {item}
-                                    </li>
+                                    </div>
                                 ))}
-                            </ul>
                             <div className="syllabus">
                                 <div className="drop"
                                     onClick={() => { setDropActive(prev => !prev) }}
@@ -94,6 +68,7 @@ function CourseInfo() {
                                     }
                                 </ul>
                             </div>
+          
                         </div>
                     </div>
                 )

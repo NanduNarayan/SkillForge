@@ -1,51 +1,60 @@
-import React, { useRef } from 'react'
+import React, {  useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom';
 import '../css/courses.css'
-
-function SearchBar() {
-    const inputRef = useRef("");
-    const submitForm = (e) => {
-        e.preventDefault();
-
-    }
-    return (
-        <form>
-            <input
-                type="search"
-                className="search-bar"
-                placeholder="Search keywords [eg: instructor name]"
-                onChange={(e) => inputRef.current = e.target.value} />
-            <button type="submit" className="search-btn" onClick={e=>submitForm} />
-        </form>
-    )
-}
+import { SearchBar } from '../Components/SearchBar';
 
 function Courses() {
-    const state = useSelector(store => store.courses?.map(course => (
+    const navigate = useNavigate();
+    const state=useSelector(store=>store.courses.map(course=>(
         {
             name: course.name,
-            instructor: course.instructor,
-            description: course.description,
-            id: course.id
-        }))||null)
-    console.log(state)
-    const navigate = useNavigate();
+            id: course.id,
+            instructor:course.instructor,
+            thumbnail:course.thumbnail,
+            description:course.description
+        }
+        )))
+    const [courseList,setCourseList]=useState(state||[])
+
+    
     const navigateCourse=(id=null)=>{
         if(id){
             navigate(`/courses/${id}`);
         }
     }
+    const getQuery=(q)=>{
+        if(q===""){
+            setCourseList([...state])
+            return
+        }
+        const capitalizedQ=q.split(" ").map(item=>item.charAt(0).toUpperCase()+item.slice(1)).join(" ");
+        console.log(capitalizedQ,q)
+        let updatedList=[];
+        // eslint-disable-next-line array-callback-return
+        state.filter(item=>{
+            if(
+                item.name.includes(q)||item.name.includes(capitalizedQ)
+                ||item.instructor.includes(capitalizedQ)||item.instructor.includes(q)
+                ){
+                    updatedList.push({...item})
+                }
+        })
+        console.log(updatedList)
+        if(updatedList){
+            setCourseList(updatedList)
+        }else setCourseList([])
+    }
     return (
         <div className="container">
-            <SearchBar />
+            <SearchBar getQuery={getQuery}/>
             {
-                Array.isArray(state) ? (
-                    state.map((item, index) => (
+                courseList.length ? (
+                    courseList.map((item, index) => (
                         <div className='course-card' key={index}
-                            onClick={()=>navigateCourse(item.id) }
+                            onClick={()=>navigateCourse(item?.id) }
                         >
-                            <img src={item.thumbnail} sx={{width:"100%",height:"30%"}} alt={`${item.id}-thmbnail`}/>
+                            <img src={item?.thumbnail} className='thumb' alt={`${item.id}-thmbnail`}/>
                             <h2>
                                 {item.name}
                             </h2>
